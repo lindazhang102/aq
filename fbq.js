@@ -1,9 +1,3 @@
-/**
- * Copyright Facebook Inc.
- *
- * Licensed under the Apache License, Version 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- */
 try {
     (function (window, document, location, history) {
         'use strict';
@@ -405,12 +399,12 @@ try {
             var option = this instanceof ObjectDotCreate ? this : duplIcateOption
                 , isPv = eventType === 'PageView';
             for (var i = 0, l = fbPixelAccountList.length; i < l; i++) {
-                var pixelId = fbPixelAccountList[i];
-                if (isPv && option.allowDuplicatePageViews === false && pvSentDic[pixelId.id] === true)
+                var pixelAccount = fbPixelAccountList[i];
+                if (isPv && option.allowDuplicatePageViews === false && pvSentDic[pixelAccount.id] === true)
                     continue;
-                __sendBack(pixelId, eventType, infoTable);
+                __sendBack(pixelAccount, eventType, infoTable);
                 if (isPv)
-                    pvSentDic[pixelId.id] = true;
+                    pvSentDic[pixelAccount.id] = true;
             }
         }
 
