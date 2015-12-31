@@ -435,9 +435,11 @@
         },
         T = function (name, shortName, defaultVal) {
             return S(name, shortName, defaultVal, undefined, emptyFunction)
-        },
-        emptyFunction = function () {
         };
+        //,
+        //emptyFunction = function () {
+        //};
+        //多次声明空函数
     var GA_GLOBAL_NAME = isString(globalObject.GoogleAnalyticsObject) && trim(globalObject.GoogleAnalyticsObject) || "ga",
         forceHttps = false,
         he = S("_br"),
@@ -540,12 +542,16 @@
     var ed = S("_j1", "jid");
     cb("\\&(.*)", function (a) {
         var b = new bb(a[0], a[1]), c = yc(a[0].substring(1));
-        c && (b.Z = function (a) {
-            return a.get(c)
-        }, b.o = function (a, b, g, ca) {
-            a.set(c, g, ca)
-        }, b.F = undefined);
-        return b
+        if(c){
+            b.Z = function (a) {
+                return a.get(c)
+            };
+            b.o = function (a, b, g, ca) {
+                a.set(c, g, ca)
+            };
+            b.F = undefined;
+        }
+        return b;
     });
     var _ootSymbol = T("_oot"),
         dd = S("previewTask"),
@@ -875,7 +881,7 @@
             if (a[c].test(b))return true
         } else if (0 <= b.indexOf(a[c]))return true;
         return false
-    };
+    }
     var Jd = function (a, b, c) {
         this.U = ed;
         this.aa = b;
@@ -1227,21 +1233,37 @@
         }
         return result
     };
-    Z.v = function (a) {
+    Z.v = function (gaArg) {
         try {
-            if (a.u)a.u.call(globalObject, GAObject.j("t0")); else {
-                var b = a.c == GA_GLOBAL_NAME ? GAObject : GAObject.j(a.c);
-                if (a.A)"t0" == a.c && GAObject.create.apply(GAObject, a.a); else if (a.ba)GAObject.remove(a.c); else if (b)if (a.i) {
-                    var c;
-                    var d = a.a[0], e = a.W;
-                    b == GAObject || b.get(V);
-                    var g = Yd.get(d);
-                    isFunction(g) ? (b.plugins_ = b.plugins_ || new Dictionary, b.plugins_.get(d) || b.plugins_.set(d, new g(b, e || {})), c = true) : c = false;
-                    if (!c)return true
-                } else if (a.K) {
-                    var ca = a.C, l = a.a, k = b.plugins_.get(a.K);
-                    k[ca].apply(k, l)
-                } else b[a.C].apply(b, a.a)
+            if (gaArg.u) {
+                gaArg.u.call(globalObject, GAObject.j("t0"));
+            }
+            else {
+                var b = gaArg.c == GA_GLOBAL_NAME ? GAObject : GAObject.j(gaArg.c);
+                if (gaArg.A) {
+                    "t0" == gaArg.c && GAObject.create.apply(GAObject, gaArg.a);
+                }
+                else if (gaArg.ba) {
+                    GAObject.remove(gaArg.c);
+                }
+                else if (b) {
+                    if (gaArg.i) {
+                        var c;
+                        var d = gaArg.a[0],
+                            e = gaArg.W;
+                        b == GAObject || b.get(V);
+                        var g = Yd.get(d);
+                        isFunction(g) ? (b.plugins_ = b.plugins_ || new Dictionary, b.plugins_.get(d) || b.plugins_.set(d, new g(b, e || {})), c = true) : c = false;
+                        if (!c)return true
+                    }
+                    else if (gaArg.K) {
+                        var ca = gaArg.C, l = gaArg.a, k = b.plugins_.get(gaArg.K);
+                        k[ca].apply(k, l)
+                    }
+                    else {
+                        b[gaArg.C].apply(b, gaArg.a)
+                    }
+                }
             }
         } catch (w) {
         }
@@ -1272,15 +1294,15 @@
     };
     //从dic和arr中移除
     GAObject.remove = function (key) {
-        for (var b = 0; b < GAObject.arr.length; b++) {
-            if (GAObject.arr[b].get("name") == key) {
-                GAObject.arr.splice(b, 1);
+        for (var index = 0; index < GAObject.arr.length; index++) {
+            if (GAObject.arr[index].get("name") == key) {
+                GAObject.arr.splice(index, 1);
                 GAObject.dictionary[key] = null;
                 break
             }
         }
-        ;
     }
+
     GAObject.j = function (a) {
         return GAObject.dictionary[a]
     };
@@ -1320,7 +1342,10 @@
                 }
                 tmp && (forceHttps = true)
             }
-            isHttps() || forceHttps || !Ed(new Od) || (setAlphaBet(36), forceHttps = true);
+            if(!isHttps() && !forceHttps && Ed(new Od)){
+                setAlphaBet(36);
+                forceHttps = true;
+            }
             (globalObject.gaplugins = globalObject.gaplugins || {}).Linker = Dc;
             tmp = Dc.prototype;
             Yd.set("linker", Dc);
@@ -1365,5 +1390,5 @@
             }
         }
         return b
-    };
+    }
 })(window);
