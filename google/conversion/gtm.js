@@ -552,10 +552,14 @@
         eventTarget = function (e) {
             return e.target || e.srcElement || {}
         },
-    //@TODO
-        qa = function (a) {
+        /**
+         * 获取到字符串中最外层的节点，可能是文字节点，也可能是嵌套节点
+         * @param htmlStr
+         * @returns {Array}
+         */
+        getElesOfHtmlString = function (htmlStr) {
             var divWrapper = document.createElement("div");
-            divWrapper.innerHTML = "A<div>" + a + "</div>";
+            divWrapper.innerHTML = "A<div>" + htmlStr + "</div>";
             var result = [];
             for (var lastChil = divWrapper.lastChild; lastChil.firstChild;) {
                 result.push(lastChil.removeChild(lastChil.firstChild));
@@ -573,13 +577,13 @@
             closestEle && !tagSet[String(closestEle.tagName).toLowerCase()] && (closestEle = null);
             return closestEle;
         },
-        vf = false,
-        wf = [],
-        xf = function () {
-            if (!vf) {
-                vf = true;
-                for (var a = 0; a < wf.length; a++) {
-                    wf[a]()
+        anUnknownCallbackTriggered = false,
+        anUnkownCallbackList = [],
+        triggerUnknowEvent = function () {
+            if (!anUnknownCallbackTriggered) {
+                anUnknownCallbackTriggered = true;
+                for (var i = 0; i < anUnkownCallbackList.length; i++) {
+                    anUnkownCallbackList[i]();
                 }
             }
         },
@@ -1658,7 +1662,7 @@
                     }
                 }
                 else {
-                    a[De] ? Oh(d, b, c) : Nh(document.body, qa(d), b, c)()
+                    a[De] ? Oh(d, b, c) : Nh(document.body, getElesOfHtmlString(d), b, c)()
                 }
             }
             else {
@@ -2448,7 +2452,7 @@
         domloadedListensers.push(function () {
             gtm.gtmDom || (gtm.gtmDom = true, dataLayer.push({event: "gtm.dom"}))
         });
-        wf.push(function () {
+        anUnkownCallbackList.push(function () {
             gtm.gtmLoad || (gtm.gtmLoad = true, dataLayer.push({event: "gtm.load"}))
         });
         var push = dataLayer.push;
@@ -2474,7 +2478,7 @@
         }
         addEve(window, "load", callbackDomloaded)
     }
-    "complete" === document.readyState ? xf() : addEve(window, "load", xf);
+    "complete" === document.readyState ? triggerUnknowEvent() : addEve(window, "load", triggerUnknowEvent);
     (function (a) {
     })("async");
     (function () {
