@@ -61,7 +61,12 @@ var ScarabArrays = function () {
 }();
 
 var ScarabUtil = function () {
-
+    /**
+     * 将价格转换成
+     * 整数 + 空格 + 小数部分(最多三位)
+     * @param nStr
+     * @returns {string}
+     */
     var prettyPrice = function (nStr) {
         nStr += '';
         var x = nStr.split('.');
