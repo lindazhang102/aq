@@ -1,4 +1,7 @@
 var _scq = _scq || [];
+/**
+ * 站点相关
+ */
 _scq.push(['setMerchantId', '14AEFABFF6C30DEA']);
 /**package
  {
