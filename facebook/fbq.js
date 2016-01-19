@@ -17,6 +17,7 @@ try {
             function InfoTable() {
                 this.list = [];
             }
+
             //常用函数定义
             InfoTable.prototype = {
                 append: function (key, value) {
@@ -94,7 +95,7 @@ try {
                 }, '*');
                 if (errorSymbol in console)
                     console[errorSymbol](fbPixelError + ': ' + message);
-            }        
+            }  
 
             function warningLog(message) {
                 postMessa({
@@ -121,7 +122,7 @@ try {
             function injectMethod(ctx, key, injectFunc) {
                 var bb = ctx[key];
                 ctx[key] = function () {
-                    var cb = bb.apply(this, arguments); 
+                    var cb = bb.apply(this, arguments);
                     injectFunc.apply(this, arguments);
                     return cb;
                 }
@@ -456,7 +457,7 @@ try {
             var attachEveOnly = !!(window.attachEvent && !window.addEventListener)
                 , iframeTag = attachEveOnly ? '<iframe name="' + iframeName + '">' : 'iframe'
                 , iframeEle = document.createElement(iframeTag);
-            iframeEle.src = 'javascript:false';    
+            iframeEle.src = 'javascript:false'; 
             iframeEle.id = iframeName;
             iframeEle.name = iframeName;
             formEle.appendChild(iframeEle);
