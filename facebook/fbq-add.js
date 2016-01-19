@@ -18,4 +18,5 @@
     document, 'script', '//connect.facebook.net/en_US/fbevents.js');
 // Insert Your Custom Audience Pixel ID below.
 fbq('init', '<FB_PIXEL_ID>');
-fbq('track', 'PageView');
+fbq('track', 'PageView'); 
+data-ajax="false" data-role="none"           

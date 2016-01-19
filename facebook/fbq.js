@@ -12,12 +12,12 @@ try {
             };
             'use strict';
             var deepSymbol = 'deep'
-                , shallowSymbol = 'shallow';
+            , shallowSymbol = 'shallow';
 
             function InfoTable() {
                 this.list = [];
             }
-
+            //常用函数定义
             InfoTable.prototype = {
                 append: function (key, value) {
                     this._append(encodeURIComponent(key), value, deepSymbol);
@@ -54,6 +54,7 @@ try {
                     return resultArr.join('&');
                 }
             };
+            //将json对象转换为字符串
             function json_str(obj) {
                 if (typeof JSON === 'undefined' || JSON === null || !JSON.stringify) {
                     return Object.prototype.toString.call(obj);
@@ -93,7 +94,7 @@ try {
                 }, '*');
                 if (errorSymbol in console)
                     console[errorSymbol](fbPixelError + ': ' + message);
-            }
+            }        
 
             function warningLog(message) {
                 postMessa({
@@ -120,7 +121,7 @@ try {
             function injectMethod(ctx, key, injectFunc) {
                 var bb = ctx[key];
                 ctx[key] = function () {
-                    var cb = bb.apply(this, arguments);
+                    var cb = bb.apply(this, arguments); 
                     injectFunc.apply(this, arguments);
                     return cb;
                 }
@@ -225,7 +226,7 @@ try {
                 }
             }
                 , hasProp = Object.prototype.hasOwnProperty;
-
+            // 事件验证
             function EventValidator(eventName, param) {
                 this.eventName = eventName;
                 this.params = param || {};
@@ -432,6 +433,7 @@ try {
             infoTable.append('v', fbq.version);
             infoTable.append('a', fbq.agent);
             var queryStr = infoTable.toQueryString();
+            //URI过长被截断
             if (2048 > (sendBackUri + '?' + queryStr).length) {
                 commonSend(sendBackUri, queryStr);
             } else
@@ -454,7 +456,7 @@ try {
             var attachEveOnly = !!(window.attachEvent && !window.addEventListener)
                 , iframeTag = attachEveOnly ? '<iframe name="' + iframeName + '">' : 'iframe'
                 , iframeEle = document.createElement(iframeTag);
-            iframeEle.src = 'javascript:false';
+            iframeEle.src = 'javascript:false';    
             iframeEle.id = iframeName;
             iframeEle.name = iframeName;
             formEle.appendChild(iframeEle);

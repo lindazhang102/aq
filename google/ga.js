@@ -920,7 +920,7 @@
             var e = a.aa;
             c.map(function (a, b) {
                 e += uriComponentEncode(a) + "=";
-                e += uriComponentEncode("" + b) + "&"
+                e += uriComponentEncode("" + b) + "&"        
             });
             e += "z=" + randomSalt();
             create1pxImg(e);
